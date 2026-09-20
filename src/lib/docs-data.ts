@@ -146,6 +146,7 @@ export const pages: Record<string, PageData> = {
     html: `
       <h2 id="what-is">What is the Waypoint API</h2>
       <p>The Waypoint API is an open, developer-first REST API that provides geolocated, community-verified jeepney terminal and boarding-point (<em>paradahan</em>) data for Baguio City. It lets developers manage and query three things: the <strong>routes</strong> jeepneys run, the <strong>stops</strong> (terminals and boarding points) they serve, and the <strong>sequence</strong> in which a route visits each stop. It's built for commuter apps, terminal management systems, and city transit dashboards that need accurate, structured local route information.</p>
+      <p><strong>Read-only (v1).</strong> The current release is public and read-only — <code>GET</code> requests only. Write operations (<code>POST</code>/<code>PUT</code>/<code>DELETE</code>) return <code>405 Method Not Allowed</code> and will be enabled in <strong>v2</strong> for developers with API keys.</p>
 
       <h2 id="what-it-offers">What it offers</h2>
       <p>The API gives you programmatic access to Baguio's jeepney route network so you don't have to hardcode routes or scrape signage. With it you can:</p>
@@ -156,11 +157,11 @@ export const pages: Record<string, PageData> = {
         </div>
         <div class="docs-feature-card">
           <h4>Manage stops</h4>
-          <p>Maintain a directory of geolocated terminals and boarding points, each with a name and coordinates.</p>
+          <p>Browse a directory of geolocated terminals and boarding points, each with a name and coordinates. Writes arrive in v2.</p>
         </div>
         <div class="docs-feature-card">
           <h4>Sequence stops per route</h4>
-          <p>Use RouteStop to define the ordered path a jeepney takes — which stops are terminals and which are intermediate.</p>
+          <p>Read the ordered path a jeepney takes — which stops are <code>TERMINAL</code> and which are <code>INTERMEDIATE</code>.</p>
         </div>
         <div class="docs-feature-card">
           <h4>Monitor the system</h4>
@@ -199,6 +200,7 @@ export const pages: Record<string, PageData> = {
     html: `
       <h2 id="api-format">API format</h2>
       <p>The Waypoint API is organized around REST. It has predictable, resource-oriented URLs, uses standard HTTP verbs and response codes, and returns JSON for every response, including errors. It is fully open — no API keys, tokens, or authentication are required.</p>
+      <p><strong>Public, read-only v1.</strong> All <code>GET</code> endpoints are freely accessible. <code>POST</code>/<code>PUT</code>/<code>DELETE</code> requests currently return <code>405 Method Not Allowed</code> — write access will be available in <strong>v2</strong> for developers with API keys.</p>
 
       <h2 id="base-url">Base URL</h2>
       <p>All endpoints are served from a single base URL:</p>
@@ -230,6 +232,7 @@ export const pages: Record<string, PageData> = {
         <tr><td><code>201</code></td><td>Created — resource created successfully</td></tr>
         <tr><td><code>204</code></td><td>No Content — deletion succeeded</td></tr>
         <tr><td><code>404</code></td><td>Not found — route, stop, or route-stop does not exist</td></tr>
+        <tr><td><code>405</code></td><td>Method Not Allowed — write operations are disabled in the read-only v1</td></tr>
         <tr><td><code>409</code></td><td>Conflict — violates a business rule (see below)</td></tr>
         <tr><td><code>500</code></td><td>Internal server error</td></tr>
       </table>
@@ -244,6 +247,7 @@ export const pages: Record<string, PageData> = {
       <h2 id="error-codes">Error codes</h2>
       <table>
         <tr><th>Code</th><th>Status</th><th>Meaning</th></tr>
+        <tr><td><code>METHOD_NOT_ALLOWED</code></td><td>405</td><td>Write operations (POST/PUT/DELETE) are blocked in the read-only v1.</td></tr>
         <tr><td><code>ROUTE_NOT_FOUND</code></td><td>404</td><td>The referenced route does not exist.</td></tr>
         <tr><td><code>STOP_NOT_FOUND</code></td><td>404</td><td>The referenced stop does not exist.</td></tr>
         <tr><td><code>ROUTE_STOP_NOT_FOUND</code></td><td>404</td><td>The stop is not assigned to the route.</td></tr>
@@ -424,6 +428,7 @@ export const pages: Record<string, PageData> = {
       <div class="docs-endpoint-header"><span class="docs-badge-pill">POST</span></div>
       <div class="docs-endpoint-url">/api/routes</div>
       <p>Creates a new route record. The <code>routeNumber</code> must be unique.</p>
+      <p><strong>Read-only in v1.</strong> This endpoint returns <code>405 Method Not Allowed</code> for now and will be available in <strong>v2</strong> with API-key authentication.</p>
 
       <h2 id="body">Request body</h2>
       <table>
@@ -462,6 +467,7 @@ export const pages: Record<string, PageData> = {
       <div class="docs-endpoint-header"><span class="docs-badge-pill">PUT</span></div>
       <div class="docs-endpoint-url">/api/routes/{id}</div>
       <p>Updates an existing route's fields. The <code>routeNumber</code> is not editable — only <code>routeName</code>, <code>vehicleType</code>, and <code>status</code> can be changed.</p>
+      <p><strong>Read-only in v1.</strong> This endpoint returns <code>405 Method Not Allowed</code> for now and will be available in <strong>v2</strong> with API-key authentication.</p>
 
       <h2 id="path">Path parameters</h2>
       <table>
@@ -503,6 +509,7 @@ export const pages: Record<string, PageData> = {
       <div class="docs-endpoint-header"><span class="docs-badge-pill">DELETE</span></div>
       <div class="docs-endpoint-url">/api/routes/{id}</div>
       <p>Permanently deletes a route. This also removes all associated <code>RouteStop</code> assignments.</p>
+      <p><strong>Read-only in v1.</strong> This endpoint returns <code>405 Method Not Allowed</code> for now and will be available in <strong>v2</strong> with API-key authentication.</p>
 
       <h2 id="path">Path parameters</h2>
       <table>
@@ -714,6 +721,7 @@ export const pages: Record<string, PageData> = {
       <div class="docs-endpoint-header"><span class="docs-badge-pill">POST</span></div>
       <div class="docs-endpoint-url">/api/stops</div>
       <p>Creates a new stop with a name and geographic coordinates.</p>
+      <p><strong>Read-only in v1.</strong> This endpoint returns <code>405 Method Not Allowed</code> for now and will be available in <strong>v2</strong> with API-key authentication.</p>
 
       <h2 id="body">Request body</h2>
       <table>
@@ -749,6 +757,7 @@ export const pages: Record<string, PageData> = {
       <div class="docs-endpoint-header"><span class="docs-badge-pill">PUT</span></div>
       <div class="docs-endpoint-url">/api/stops/{id}</div>
       <p>Updates an existing stop's name and/or coordinates.</p>
+      <p><strong>Read-only in v1.</strong> This endpoint returns <code>405 Method Not Allowed</code> for now and will be available in <strong>v2</strong> with API-key authentication.</p>
 
       <h2 id="path">Path parameters</h2>
       <table>
@@ -789,6 +798,7 @@ export const pages: Record<string, PageData> = {
       <div class="docs-endpoint-header"><span class="docs-badge-pill">DELETE</span></div>
       <div class="docs-endpoint-url">/api/stops/{id}</div>
       <p>Permanently deletes a stop and its associated <code>RouteStop</code> assignments.</p>
+      <p><strong>Read-only in v1.</strong> This endpoint returns <code>405 Method Not Allowed</code> for now and will be available in <strong>v2</strong> with API-key authentication.</p>
 
       <h2 id="path">Path parameters</h2>
       <table>
@@ -851,6 +861,7 @@ export const pages: Record<string, PageData> = {
       <div class="docs-endpoint-header"><span class="docs-badge-pill">POST</span></div>
       <div class="docs-endpoint-url">/api/route-stops</div>
       <p>Assigns a stop to a route. If <code>sequence</code> is omitted it is auto-assigned as the current max sequence + 1 (appended to the end). A route may have at most 2 TERMINAL stops, and a stop can be added to a route only once.</p>
+      <p><strong>Read-only in v1.</strong> This endpoint returns <code>405 Method Not Allowed</code> for now and will be available in <strong>v2</strong> with API-key authentication.</p>
 
       <h2 id="body">Request body</h2>
       <table>
@@ -886,6 +897,7 @@ export const pages: Record<string, PageData> = {
       <div class="docs-endpoint-header"><span class="docs-badge-pill">PUT</span></div>
       <div class="docs-endpoint-url">/api/route-stops/{routeId}/{stopId}</div>
       <p>Updates the sequence and/or stop type of an existing route-stop record. Moving a stop to an occupied sequence position shifts the other stops automatically so sequences stay contiguous.</p>
+      <p><strong>Read-only in v1.</strong> This endpoint returns <code>405 Method Not Allowed</code> for now and will be available in <strong>v2</strong> with API-key authentication.</p>
 
       <h2 id="path">Path parameters</h2>
       <table>
@@ -925,6 +937,7 @@ export const pages: Record<string, PageData> = {
       <div class="docs-endpoint-header"><span class="docs-badge-pill">DELETE</span></div>
       <div class="docs-endpoint-url">/api/route-stops/{routeId}/{stopId}</div>
       <p>Removes the assignment. The remaining stops are automatically re-sequenced so the order stays contiguous.</p>
+      <p><strong>Read-only in v1.</strong> This endpoint returns <code>405 Method Not Allowed</code> for now and will be available in <strong>v2</strong> with API-key authentication.</p>
 
       <h2 id="path">Path parameters</h2>
       <table>
