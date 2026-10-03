@@ -24,3 +24,28 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+.docs-note {
+  border: 1px solid rgb(252 211 77);
+  background: #fffbeb;
+  border-radius: 0.5rem;
+  padding: 0.875rem 1.25rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  color: #3f3f46;
+}
+
+.docs-note strong {
+  color: #18181b;
+}
+
+.dark .docs-note {
+  border-color: rgb(245 158 11 / 0.3);
+  background: rgb(245 158 11 / 0.08);
+  color: #d4d4d8;
+}
+
+.dark .docs-note strong {
+  color: #fafafa;
+}

@@ -181,6 +181,7 @@ export const pages: Record<string, PageData> = {
 
       <h2 id="who-its-for">Who it's for</h2>
       <p>This API is intended for developers building commuter-facing apps, local government transit tools, terminal operators digitizing their route boards, and researchers studying urban public transport patterns in Baguio City.</p>
+      <div class="docs-note"><strong>Kept current by contributors.</strong> Jeepney services in Baguio change often &mdash; routes get rerouted, terminals relocate, and boarding points are renamed. This is not an official government transit API but a community-driven effort to provide accurate, up-to-date data for developers. Data may occasionally be out of date. If you spot a discrepancy, send it to <a href="mailto:waypoint.devs@gmail.com">waypoint.devs@gmail.com</a> and it will be reviewed and updated.</div>
 
       <h2 id="getting-started">Getting started</h2>
       <p>Head to <strong>Getting started</strong> for the base URL and your first request, or jump straight to the <strong>Route</strong> section to start listing jeepney routes. The API is open and requires no authentication.</p>
